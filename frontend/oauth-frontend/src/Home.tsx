@@ -1,10 +1,12 @@
-import { useState } from 'react'
 import OAuthSymbol from './assets/oauth.png'
 import GoogleIcon from './assets/google.png'
 import './App.css'
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+function Home() {
 
   return (
     <>
@@ -13,7 +15,7 @@ function App() {
       </div>
       <h1>OAuth Prototype</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button>
           <div className="signin">
             <img src={GoogleIcon} className="button-logo" />
             <p>Sign in with Google</p>
@@ -33,4 +35,4 @@ function App() {
   )
 }
 
-export default App
+export default Home
