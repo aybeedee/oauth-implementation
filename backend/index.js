@@ -39,7 +39,6 @@ app.use(
   })
 );
 
-
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
 const supabase = createClient(supabaseUrl, supabaseKey)
@@ -147,3 +146,6 @@ app.get("/api/sessions/oauth/google", async (req, res) => {
 app.listen(port, () => {
   console.log(`OAuth backend app listening on port ${port}`)
 })
+
+// for testing
+export default app
