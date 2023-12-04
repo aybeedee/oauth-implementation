@@ -1,19 +1,13 @@
-import OAuthSymbol from './assets/oauth.png'
-import GoogleIcon from './assets/google.png'
 import './App.css'
 
-function Home() {
+function Profile() {
 
   return (
     <>
-      <div>
-        <img src={OAuthSymbol} className="logo" alt="OAuth Symbol" />
-      </div>
       <h1>OAuth Prototype</h1>
       <div className="card">
         <button>
           <div className="signin">
-            <img src={GoogleIcon} className="button-logo" />
             <p>Sign in with Google</p>
           </div>
         </button>
@@ -31,4 +25,4 @@ function Home() {
   )
 }
 
-export default Home
+export default Profile
