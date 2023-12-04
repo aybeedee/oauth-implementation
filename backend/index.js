@@ -1,13 +1,40 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import axios from 'axios'
-import qs from 'qs'
-import { createClient } from '@supabase/supabase-js'
+import express from 'express';
+import dotenv from 'dotenv';
+import axios from 'axios';
+import qs from 'qs';
+import bodyParser from 'body-parser';
+import cookieParser from 'cookie-parser';
+import session from 'express-session';
+import cors from 'cors';
+import { createClient } from '@supabase/supabase-js';
 
-const app = express()
-const port = 3000
+dotenv.config();
 
-dotenv.config()
+const port = process.env.PORT;
+const app = express();
+
+app.use(express.json());
+app.use(
+  cors({
+    origin: process.env.ORIGIN_URL,
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
+app.use(cookieParser());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  session({
+    key: "userId",
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      expires: 60*60*24
+    },
+  })
+);
+
 
 const supabaseUrl = process.env.SUPABASE_URL
 const supabaseKey = process.env.SUPABASE_KEY
@@ -66,6 +93,9 @@ app.get("/api/sessions/oauth/google", async (req, res) => {
       return res.status(403).send("The Google account's email is not verified");
     }
 
+    req.session.user = user;
+    console.log(req.session.user);
+    
   } catch (error) {
     return res.json(error);
   }
