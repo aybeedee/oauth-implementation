@@ -1,4 +1,5 @@
 {
+  "type": "module",
   "name": "oauth-backend",
   "version": "1.0.0",
   "description": "",
@@ -12,7 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "@supabase/supabase-js": "^2.39.0",
+    "axios": "^1.6.2",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
-    "nodemon": "^3.0.2"
+    "nodemon": "^3.0.2",
+    "qs": "^6.11.2"
   }
 }
