@@ -30,7 +30,11 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      expires: 60*60*24
+      maxAge: 900000, // 15 mins
+      httpOnly: true,
+      domain: "localhost",
+      path: "/",
+      sameSite: "strict",
     },
   })
 );
@@ -106,6 +110,21 @@ app.get("/api/sessions/oauth/google", async (req, res) => {
     if (!user.verified_email) {
       return res.status(403).send("The Google account's email is not verified");
     }
+
+    const { data, error } = await supabase
+    .from('users')
+    .upsert({
+      email: user.email,
+      name: user.name,
+      picture: user.picture,
+    })
+    .select();
+
+    if (error) {
+      return res.json(error)
+    }
+    
+    console.log(data);
 
     req.session.user = user;
     console.log(req.session.user);

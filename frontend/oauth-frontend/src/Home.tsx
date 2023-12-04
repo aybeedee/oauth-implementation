@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import OAuthSymbol from './assets/oauth.png'
 import GoogleIcon from './assets/google.png'
@@ -29,16 +30,21 @@ function getGoogleOAuthURL() {
 
 function Home() {
 
+  const navigate = useNavigate();
+  
   const [loggedIn, setLoggedIn] = useState(false);
 
   axios.defaults.withCredentials = true;
-  
+
   useEffect(()=>{
     const checkLogin = async () => {
         try{
           const res = await axios.get("http://localhost:3000/login");
           console.log(res);
           setLoggedIn(res.data.loggedIn);
+          if (res.data.loggedIn) {
+            navigate("/profile");
+          }
         } catch(err) {
             console.log(err);
         }
@@ -48,7 +54,6 @@ function Home() {
 
   return (
     <>
-      {loggedIn && <a href="https://www.google.com">https://www.google.com</a>}
       <div>
         <img src={OAuthSymbol} className="logo" alt="OAuth Symbol" />
       </div>
