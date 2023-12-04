@@ -1,3 +1,5 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 import OAuthSymbol from './assets/oauth.png'
 import GoogleIcon from './assets/google.png'
 import './App.css'
@@ -19,15 +21,34 @@ function getGoogleOAuthURL() {
   console.log({ options });
 
   const queryString = new URLSearchParams(options);
-  
+
   console.log(queryString.toString());
 
   return `${rootURL}?${queryString.toString()}`;
 }
 
 function Home() {
+
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  axios.defaults.withCredentials = true;
+  
+  useEffect(()=>{
+    const checkLogin = async () => {
+        try{
+          const res = await axios.get("http://localhost:3000/login");
+          console.log(res);
+          setLoggedIn(res.data.loggedIn);
+        } catch(err) {
+            console.log(err);
+        }
+    }
+    checkLogin();
+}, [])
+
   return (
     <>
+      {loggedIn && <a href="https://www.google.com">https://www.google.com</a>}
       <div>
         <img src={OAuthSymbol} className="logo" alt="OAuth Symbol" />
       </div>

@@ -44,6 +44,20 @@ app.get('/', (req, res) => {
   res.send('Hello World!')
 })
 
+app.get('/login', (req, res) => {
+  if (req.session.user) {
+    res.send({
+      loggedIn: true,
+      user: req.session.user,
+    })
+  }
+  else {
+    res.send({
+      loggedIn: false,
+    })
+  }
+})
+
 app.get("/api/sessions/oauth/google", async (req, res) => {
 
   // get the code from the query params
@@ -95,26 +109,12 @@ app.get("/api/sessions/oauth/google", async (req, res) => {
 
     req.session.user = user;
     console.log(req.session.user);
-    
+
+    res.redirect(process.env.ORIGIN_URL);
+
   } catch (error) {
     return res.json(error);
   }
-
-
-
-  // const { data, error } = await supabase
-  // .from('users')
-  // .upsert({
-  //   email: 'someEmail',
-  //   name: 'someName',
-  //   picture: 'somePicture',
-  // })
-  // .select()
-  // if (error) {
-  //   return res.json(error)
-  // }
-  // return res.json(data)
-  res.send('Thanks for visiting this api route')
 })
 
 app.listen(port, () => {
