@@ -62,6 +62,14 @@ app.get('/login', (req, res) => {
   }
 })
 
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.clearCookie("userId");
+    res.send({
+      loggedOut: true,
+    });
+})
+
 app.get("/api/sessions/oauth/google", async (req, res) => {
 
   // get the code from the query params

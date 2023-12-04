@@ -31,8 +31,6 @@ function getGoogleOAuthURL() {
 function Home() {
 
   const navigate = useNavigate();
-  
-  const [loggedIn, setLoggedIn] = useState(false);
 
   axios.defaults.withCredentials = true;
 
@@ -41,7 +39,6 @@ function Home() {
         try{
           const res = await axios.get("http://localhost:3000/login");
           console.log(res);
-          setLoggedIn(res.data.loggedIn);
           if (res.data.loggedIn) {
             navigate("/profile");
           }

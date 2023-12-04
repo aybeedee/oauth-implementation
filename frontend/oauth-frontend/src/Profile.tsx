@@ -35,10 +35,20 @@ function Profile() {
     checkLogin();
   }, [])
 
+  const handleLogout = async (e : React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    try {
+      const res = await axios.get("http://localhost:3000/logout");
+      console.log(res);
+      setLoggedIn(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
   return (
     <>
       {
-        user ?
+        (loggedIn && user) ?
           <>
             <img src={user.picture}/>
             <h1>Welcome, {user.name}</h1>
@@ -46,11 +56,11 @@ function Profile() {
               <p>
               email: {user.email}
               </p>
-              <button>
+              <button onClick={handleLogout}>
               <div className="signin">
                 <p>Logout</p>
               </div>
-            </button>
+              </button>
             </div>
             <p className="read-the-docs">
               verified_email: {user.verified_email ? "true" : "false"}
